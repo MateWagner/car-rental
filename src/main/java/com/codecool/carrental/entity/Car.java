@@ -5,10 +5,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.annotation.processing.Generated;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Set;
+
 @Entity(name = "cars")
 @AllArgsConstructor
 @NoArgsConstructor
