@@ -9,7 +9,8 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Set;
 
-@Entity(name = "cars")
+@Entity
+@Table(name = "cars")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -25,7 +26,7 @@ public class Car {
     private Long id;
 
     @Column(
-            name = "name",
+            name = "car_name",
             nullable = false
     )
     private String name;
