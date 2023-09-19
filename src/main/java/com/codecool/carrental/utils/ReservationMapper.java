@@ -1,6 +1,7 @@
 package com.codecool.carrental.utils;
 
 import com.codecool.carrental.controller.dto.ReservationRequest;
+import com.codecool.carrental.controller.dto.ReservationRequestThymeleaf;
 import com.codecool.carrental.entity.Car;
 import com.codecool.carrental.entity.Reservation;
 
@@ -15,6 +16,18 @@ public class ReservationMapper {
                 reservationRequest.getDateFrom(),
                 reservationRequest.getDateTo(),
                 car
+        );
+    }
+
+    public static ReservationRequest thymeleafToRequestDTO(ReservationRequestThymeleaf reservation) {
+        return new ReservationRequest(
+                reservation.getClient_name(),
+                reservation.getEmail(),
+                reservation.getAddress(),
+                reservation.getPhoneNumber(),
+                reservation.getDateFrom(),
+                reservation.getDateTo(),
+                reservation.getCarId()
         );
     }
 }

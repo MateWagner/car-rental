@@ -34,7 +34,7 @@ public class CarService {
         return reservationService.createNewReservation(reservationRequest, actualCar);
     }
 
-    private Car getCarById(Long id) {
+    public Car getCarById(Long id) {
         return carRepository.findCarById(id)
                 .orElseThrow(() -> new NotFoundException("Can't find Car with id: " + id));
     }
@@ -42,5 +42,9 @@ public class CarService {
     private boolean isCarAvailable(ReservationRequest reservationRequest) {
         List<Long> notAvailableCarsId = reservationService.getNotAvailableCarsId(reservationRequest.getDateFrom(), reservationRequest.getDateTo());
         return !notAvailableCarsId.contains(reservationRequest.getCarId());
+    }
+
+    public List<Car> getAllCar() {
+        return carRepository.findAll();
     }
 }
