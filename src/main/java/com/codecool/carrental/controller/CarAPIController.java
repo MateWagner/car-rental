@@ -1,13 +1,12 @@
 package com.codecool.carrental.controller;
 
 import com.codecool.carrental.controller.dto.RequestedPeriod;
+import com.codecool.carrental.controller.dto.ReservationRequest;
 import com.codecool.carrental.entity.Car;
 import com.codecool.carrental.service.CarService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,6 +18,13 @@ public class CarAPIController {
 
     @GetMapping("available")
     public List<Car> getAvailableCarsInPeriod(@RequestBody RequestedPeriod requestedTimes) {
-        return carService.getAvailableCarsInPeriod(requestedTimes);
+        return carService.getAvailableCarsInPeriod(requestedTimes.getDateFrom(), requestedTimes.getDateFrom());
     }
+
+    @PostMapping("reserve")
+    @ResponseStatus(HttpStatus.CREATED)
+    public long createReservation(@RequestBody ReservationRequest reservationRequest) {
+        return carService.reserveCar(reservationRequest);
+    }
+
 }
