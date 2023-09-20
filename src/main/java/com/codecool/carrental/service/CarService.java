@@ -22,36 +22,39 @@ public class CarService {
     public List<Car> getAvailableCarsInPeriod(LocalDate dateFrom, LocalDate dateTo) {
         if (dateFrom.equals(dateTo))
             throw new BadRequestException("Can't accept reservation less then one day");
+        if (dateFrom.isBefore(LocalDate.now()) || dateTo.isBefore(dateFrom))
+            throw new BadRequestException("Start date of reservation can't be older than today and can't be grater then Finish day");
 
         Set<Long> notAvailableCarsId = reservationService.getNotAvailableCarsIdInPeriod(dateFrom, dateTo);
         if (notAvailableCarsId.isEmpty())
-            return carRepository.findAll();
-        return carRepository.findAllByIdNotIn(notAvailableCarsId);
+            return carRepository.findCarByIsActiveTrue();
+        return carRepository.findAllByIdNotInAndIsActive(notAvailableCarsId, true);
     }
 
     @Transactional(Transactional.TxType.REQUIRED)
     public Long reserveCar(ReservationRequest reservationRequest) {
-        if (!isCarAvailable(reservationRequest)) {
+        if (!isCarAvailableInPeriod(reservationRequest)) {
             throw new BadRequestException("Not available Car with id " + reservationRequest.getCarId());
         }
-        Car actualCar = getCarById(reservationRequest.getCarId());
+        Car actualCar = getCarByIdAndIsActive(reservationRequest.getCarId(), true);
         return reservationService.createNewReservation(reservationRequest, actualCar);
     }
 
-    public Car getCarById(Long id) {
+    private Car getCarByIdAndIsActive(Long id, boolean isActive) {
+        return carRepository.findCarByIdAndIsActive(id, isActive)
+                .orElseThrow(() -> new NotFoundException("Can't find available Car with id: " + id));
+    }
+
+    private Car getCarById(Long id) {
         return carRepository.findCarById(id)
                 .orElseThrow(() -> new NotFoundException("Can't find Car with id: " + id));
     }
 
-    private boolean isCarAvailable(ReservationRequest reservationRequest) {
+    private boolean isCarAvailableInPeriod(ReservationRequest reservationRequest) {
         Set<Long> notAvailableCarsId = reservationService.getNotAvailableCarsIdInPeriod(
                 reservationRequest.getDateFrom(),
                 reservationRequest.getDateTo()
         );
         return !notAvailableCarsId.contains(reservationRequest.getCarId());
-    }
-
-    public List<Car> getAllCar() {
-        return carRepository.findAll();
     }
 }
