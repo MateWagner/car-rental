@@ -20,11 +20,7 @@ public class CarService {
     private final ReservationService reservationService;
 
     public List<Car> getAvailableCarsInPeriod(LocalDate dateFrom, LocalDate dateTo) {
-        if (dateFrom.equals(dateTo))
-            throw new BadRequestException("Can't accept reservation less then one day");
-        if (dateFrom.isBefore(LocalDate.now()) || dateTo.isBefore(dateFrom))
-            throw new BadRequestException("Start date of reservation can't be older than today and can't be grater then Finish day");
-
+        dateInputValidation(dateFrom, dateTo);
         Set<Long> notAvailableCarsId = reservationService.getNotAvailableCarsIdInPeriod(dateFrom, dateTo);
         if (notAvailableCarsId.isEmpty())
             return carRepository.findCarByIsActiveTrue();
@@ -33,10 +29,14 @@ public class CarService {
 
     @Transactional(Transactional.TxType.REQUIRED)
     public Long reserveCar(ReservationRequest reservationRequest) {
+        dateInputValidation(reservationRequest.getDateFrom(), reservationRequest.getDateTo());
+
         if (!isCarAvailableInPeriod(reservationRequest)) {
             throw new BadRequestException("Not available Car with id " + reservationRequest.getCarId());
         }
+
         Car actualCar = getCarByIdAndIsActive(reservationRequest.getCarId(), true);
+
         return reservationService.createNewReservation(reservationRequest, actualCar);
     }
 
@@ -45,7 +45,7 @@ public class CarService {
                 .orElseThrow(() -> new NotFoundException("Can't find available Car with id: " + id));
     }
 
-    private Car getCarById(Long id) {
+    public Car getCarById(Long id) {
         return carRepository.findCarById(id)
                 .orElseThrow(() -> new NotFoundException("Can't find Car with id: " + id));
     }
@@ -56,5 +56,13 @@ public class CarService {
                 reservationRequest.getDateTo()
         );
         return !notAvailableCarsId.contains(reservationRequest.getCarId());
+    }
+
+
+    private void dateInputValidation(LocalDate dateFrom, LocalDate dateTo) {
+        if (dateFrom.equals(dateTo))
+            throw new BadRequestException("Can't accept reservation less then one day");
+        if (dateFrom.isBefore(LocalDate.now()) || dateTo.isBefore(dateFrom))
+            throw new BadRequestException("Start date of reservation can't be older than today and can't be grater then Finish day");
     }
 }
