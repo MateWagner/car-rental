@@ -49,10 +49,26 @@
                 </div>
             </div>
             <form action="/place-order" method="post" th:object="${req}">
-                <input type="text" th:field="*{client_name}">
-                <input type="email" th:field="*{email}">
-                <input type="text" th:field="*{address}">
-                <input type="text" th:field="*{phoneNumber}">
+                <div class="mb-3">
+                    <label for="inputName" class="form-label">Name</label>
+                    <input type="text" id="inputName" class="form-control" placeholder="Name" th:field="*{client_name}"
+                           required min="5">
+                </div>
+                <div class="mb-3">
+                    <label for="inputEmail" class="form-label">Email</label>
+                    <input type="email" id="inputEmail" class="form-control" placeholder="Email" th:field="*{email}"
+                           required>
+                </div>
+                <div class="mb-3">
+                    <label for="inputAddress" class="form-label">Address</label>
+                    <input type="text" id="inputAddress" class="form-control" placeholder="Address"
+                           th:field="*{address}" required min="10">
+                </div>
+                <div class="mb-3">
+                    <label for="inputPhoneNumber" class="form-label">Phone Number</label>
+                    <input type="text" id="inputPhoneNumber" class="form-control" placeholder="Phone Number"
+                           th:field="*{phoneNumber}" required min="9">
+                </div>
                 <input type="hidden" th:field="*{carId}">
                 <input type="hidden" th:field="*{dateFrom}">
                 <input type="hidden" th:field="*{dateTo}">

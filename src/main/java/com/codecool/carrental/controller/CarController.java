@@ -31,7 +31,10 @@ public class CarController {
 
     @PostMapping("/availablecar")
     public String getAvailableCarInPeriod(Model model, @ModelAttribute("period") PeriodThymeleaf period) {
-        List<Car> cars = carService.getAllCar();
+        List<Car> cars = carService.getAvailableCarsInPeriod(
+                period.getDateFrom(),
+                period.getDateTo()
+        );
         model.addAttribute("cars", cars);
         model.addAttribute("period", period);
         return "result";
@@ -39,16 +42,18 @@ public class CarController {
 
     @GetMapping("/order/{carId}")
     public String placeOrder(Model model, @PathVariable Long carId, @RequestParam("from") String fromStr, @RequestParam("to") String toStr) {
+
         ReservationRequestThymeleaf reservationRequest = new ReservationRequestThymeleaf();
         Car car = carService.getCarById(carId);
+
         PeriodThymeleaf period = new PeriodThymeleaf(
                 LocalDate.parse(fromStr),
                 LocalDate.parse(toStr)
         );
-
         reservationRequest.setDateFrom(period.getDateFrom());
         reservationRequest.setDateTo(period.getDateTo());
         reservationRequest.setCarId(car.getId());
+
         model.addAttribute("req", reservationRequest);
         model.addAttribute("period", period);
         model.addAttribute("car", car);
@@ -58,11 +63,7 @@ public class CarController {
 
     @PostMapping("place-order")
     public String saveOrder(@ModelAttribute("req") ReservationRequestThymeleaf reservationRequest) {
-        System.out.println(reservationRequest.getClient_name());
-        System.out.println(reservationRequest.getPhoneNumber());
-        System.out.println(reservationRequest.getCarId());
-        System.out.println(reservationRequest.getDateFrom());
-        System.out.println(reservationRequest.getDateTo());
+
         ReservationRequest request = ReservationMapper.thymeleafToRequestDTO(reservationRequest);
         carService.reserveCar(request);
         return "redirect:/";
