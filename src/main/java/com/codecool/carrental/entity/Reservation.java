@@ -1,5 +1,6 @@
 package com.codecool.carrental.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,7 +9,8 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.time.LocalDate;
 
-@Entity(name = "reservations")
+@Entity
+@Table(name = "reservations")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -63,8 +65,9 @@ public class Reservation {
     @ManyToOne
     @JoinColumn(
             name = "car_id",
-            foreignKey = @ForeignKey(name = "fk_car_to_reservation")
+            foreignKey = @ForeignKey(name = "fk_cars_to_reservations")
     )
+    @JsonIgnore
     private Car car;
 
     public Reservation(String clientName, String email, String address, String phoneNumber, LocalDate dateFrom, LocalDate dateTo, Car car) {
@@ -76,5 +79,6 @@ public class Reservation {
         this.dateTo = dateTo;
         this.car = car;
     }
+
 }
 
