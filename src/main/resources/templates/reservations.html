@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="fragments/template :: head"></head>
+<body>
+<nav th:replace="fragments/template :: nav">
+</nav>
+<div class="container text-center">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <h1> Reservation</h1>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">Phone</th>
+                    <th scope="col">From</th>
+                    <th scope="col">To</th>
+                    <th scope="col">Car</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="res: ${reservations}">
+                    <td th:text="${res.id}"></td>
+                    <td th:text="${res.clientName}"></td>
+                    <td th:text="${res.email}"></td>
+                    <td th:text="${res.address}"></td>
+                    <td th:text="${res.phoneNumber}"></td>
+                    <td th:text="${res.dateFrom}"></td>
+                    <td th:text="${res.dateTo}"></td>
+                    <td th:text="${res.carName}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="fragments/template :: head"></head>
+<body>
+<nav th:replace="fragments/template :: nav">
+</nav>
+<div class="container text-center">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <h1>Fleet</h1>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">Picture</th>
+                    <th scope="col">Id</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Daily Price</th>
+                    <th scope="col">Active</th>
+                    <th scope="col">Edit</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="car: ${cars}">
+                    <td><img th:src="${car.picturePath}" width="150"></td>
+                    <td th:text="${car.id}"></td>
+                    <td th:text="${car.name}"></td>
+                    <td th:text="${car.dalyPrice}"></td>
+                    <td th:if="${car.isActive}">✅</td>
+                    <td th:unless="${car.isActive}">❌</td>
+                    <td><a th:href="@{'/admin/car/'+ ${car.id}}" type="button" class="btn btn-secondary">Edit</a></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -65,4 +65,12 @@ public class CarService {
         if (dateFrom.isBefore(LocalDate.now()) || dateTo.isBefore(dateFrom))
             throw new BadRequestException("Start date of reservation can't be older than today and can't be grater then Finish day");
     }
+
+    public List<Car> getAllCarToAdmin() {
+        return carRepository.findAll();
+    }
+
+    public void updateCar(Car car) {
+        carRepository.save(car);
+    }
 }

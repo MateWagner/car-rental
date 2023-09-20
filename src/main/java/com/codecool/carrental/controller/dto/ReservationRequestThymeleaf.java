@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 public class ReservationRequestThymeleaf {
-    private String client_name;
+    private String clientName;
     private String email;
     private String address;
     private String phoneNumber;
