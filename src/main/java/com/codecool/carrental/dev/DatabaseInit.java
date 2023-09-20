@@ -32,7 +32,7 @@ public class DatabaseInit implements CommandLineRunner {
                 "car2",
                 BigDecimal.valueOf(50),
                 "none",
-                true,
+                false,
                 new HashSet<>()
         );
         carRepository.saveAll(List.of(car1, car2));

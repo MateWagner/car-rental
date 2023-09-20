@@ -8,7 +8,11 @@ import java.util.Optional;
 import java.util.Set;
 
 public interface CarRepository extends JpaRepository<Car, Long> {
-    List<Car> findAllByIdNotIn(Set<Long> reservedCarsId);
+    List<Car> findAllByIdNotInAndIsActive(Set<Long> reservedCarsId, boolean isActive);
+
+    List<Car> findCarByIsActiveTrue();
 
     Optional<Car> findCarById(Long id);
+
+    Optional<Car> findCarByIdAndIsActive(Long id, boolean isActive);
 }

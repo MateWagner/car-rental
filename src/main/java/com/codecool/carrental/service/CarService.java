@@ -25,17 +25,22 @@ public class CarService {
 
         Set<Long> notAvailableCarsId = reservationService.getNotAvailableCarsIdInPeriod(dateFrom, dateTo);
         if (notAvailableCarsId.isEmpty())
-            return carRepository.findAll();
-        return carRepository.findAllByIdNotIn(notAvailableCarsId);
+            return carRepository.findCarByIsActiveTrue();
+        return carRepository.findAllByIdNotInAndIsActive(notAvailableCarsId, true);
     }
 
     @Transactional(Transactional.TxType.REQUIRED)
     public Long reserveCar(ReservationRequest reservationRequest) {
-        if (!isCarAvailable(reservationRequest)) {
+        if (!isCarAvailableInPeriod(reservationRequest)) {
             throw new BadRequestException("Not available Car with id " + reservationRequest.getCarId());
         }
-        Car actualCar = getCarById(reservationRequest.getCarId());
+        Car actualCar = getCarByIdAndIsActive(reservationRequest.getCarId(), true);
         return reservationService.createNewReservation(reservationRequest, actualCar);
+    }
+
+    private Car getCarByIdAndIsActive(Long id, boolean isActive) {
+        return carRepository.findCarByIdAndIsActive(id, isActive)
+                .orElseThrow(() -> new NotFoundException("Can't find available Car with id: " + id));
     }
 
     private Car getCarById(Long id) {
@@ -43,7 +48,7 @@ public class CarService {
                 .orElseThrow(() -> new NotFoundException("Can't find Car with id: " + id));
     }
 
-    private boolean isCarAvailable(ReservationRequest reservationRequest) {
+    private boolean isCarAvailableInPeriod(ReservationRequest reservationRequest) {
         Set<Long> notAvailableCarsId = reservationService.getNotAvailableCarsIdInPeriod(
                 reservationRequest.getDateFrom(),
                 reservationRequest.getDateTo()
