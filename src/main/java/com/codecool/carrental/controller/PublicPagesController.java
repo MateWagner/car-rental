@@ -18,7 +18,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/")
 @RequiredArgsConstructor
-public class CarController {
+public class PublicPagesController {
     private final CarService carService;
     private final ReservationService reservationService;
 
@@ -61,7 +61,7 @@ public class CarController {
         return "order";
     }
 
-    @PostMapping("place-order")
+    @PostMapping("/place-order")
     public String saveOrder(@ModelAttribute("req") ReservationRequestThymeleaf reservationRequest) {
 
         ReservationRequest request = ReservationMapper.thymeleafToRequestDTO(reservationRequest);
