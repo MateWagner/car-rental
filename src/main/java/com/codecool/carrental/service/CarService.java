@@ -22,6 +22,8 @@ public class CarService {
     public List<Car> getAvailableCarsInPeriod(LocalDate dateFrom, LocalDate dateTo) {
         if (dateFrom.equals(dateTo))
             throw new BadRequestException("Can't accept reservation less then one day");
+        if (dateFrom.isBefore(LocalDate.now()) || dateTo.isBefore(dateFrom))
+            throw new BadRequestException("Start date of reservation can't be older than today and can't be grater then Finish day");
 
         Set<Long> notAvailableCarsId = reservationService.getNotAvailableCarsIdInPeriod(dateFrom, dateTo);
         if (notAvailableCarsId.isEmpty())
