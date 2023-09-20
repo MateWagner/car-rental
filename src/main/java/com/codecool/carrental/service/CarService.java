@@ -1,10 +1,12 @@
 package com.codecool.carrental.service;
 
+import com.codecool.carrental.controller.dto.NewCarDTO;
 import com.codecool.carrental.controller.dto.ReservationRequest;
 import com.codecool.carrental.entity.Car;
 import com.codecool.carrental.exception.BadRequestException;
 import com.codecool.carrental.exception.NotFoundException;
 import com.codecool.carrental.repository.CarRepository;
+import com.codecool.carrental.utils.CarMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -72,5 +74,9 @@ public class CarService {
 
     public void updateCar(Car car) {
         carRepository.save(car);
+    }
+
+    public Long addNewCar(NewCarDTO carDTO) {
+        return carRepository.save(CarMapper.NewcarDTOToCar(carDTO)).getId();
     }
 }

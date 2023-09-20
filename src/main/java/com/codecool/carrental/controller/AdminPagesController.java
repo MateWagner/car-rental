@@ -1,5 +1,6 @@
 package com.codecool.carrental.controller;
 
+import com.codecool.carrental.controller.dto.NewCarDTO;
 import com.codecool.carrental.controller.dto.ReservationWithCarNameAndId;
 import com.codecool.carrental.entity.Car;
 import com.codecool.carrental.service.CarService;
@@ -29,15 +30,23 @@ public class AdminPagesController {
     }
 
     @PostMapping("/car")
-    public String saveCar(Car car) {
+    public String updateCar(Car car) {
         carService.updateCar(car);
+        return "redirect:/admin/cars";
+    }
+
+    @PostMapping("/car/add")
+    public String addNewCar(NewCarDTO carDTO) {
+        carService.addNewCar(carDTO);
         return "redirect:/admin/cars";
     }
 
     @GetMapping("/cars")
     public String getCars(Model model) {
+        NewCarDTO newCarDTO = new NewCarDTO();
         List<Car> cars = carService.getAllCarToAdmin();
         model.addAttribute("cars", cars);
+        model.addAttribute("newCar", newCarDTO);
         return "cars";
     }
 
