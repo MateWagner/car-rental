@@ -6,11 +6,10 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Set;
 
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
-    List<Reservation> findAllByDateFromGreaterThanEqualAndDateToLessThanEqual(LocalDate dateFrom, LocalDate dateTo);
+    @Query("SELECT r.car.id FROM Reservation r WHERE r.dateFrom BETWEEN :dateFrom AND :dateTo OR r.dateTo BETWEEN :dateFrom AND :dateTo ")
+    Set<Long> findReservedCarIdInPeriod(@Param("dateFrom") LocalDate dateFrom, @Param("dateTo") LocalDate dateTo);
 
-    @Query("SELECT r FROM Reservation r WHERE (r.dateFrom BETWEEN :dateFrom AND :dateTo) OR (r.dateTo BETWEEN :dateFrom AND :dateTo) ")
-    List<Reservation> findReservationInRange(@Param("dateFrom") LocalDate dateFrom, @Param("dateTo") LocalDate dateTo);
 }

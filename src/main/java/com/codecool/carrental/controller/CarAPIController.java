@@ -18,7 +18,7 @@ public class CarAPIController {
 
     @GetMapping("available")
     public List<Car> getAvailableCarsInPeriod(@RequestBody RequestedPeriod requestedTimes) {
-        return carService.getAvailableCarsInPeriod(requestedTimes.getDateFrom(), requestedTimes.getDateFrom());
+        return carService.getAvailableCarsInPeriod(requestedTimes.getDateFrom(), requestedTimes.getDateTo());
     }
 
     @PostMapping("reserve")
