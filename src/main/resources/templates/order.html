@@ -47,11 +47,12 @@
                 <input type="hidden" th:field="*{carId}">
                 <input type="hidden" th:field="*{dateFrom}">
                 <input type="hidden" th:field="*{dateTo}">
-                <p>Reservation Period: <span th:text="*{dateFrom}"></span> - <span th:text="*{dateTo}"></span></p>
+                <p>Reservation Period : <span th:text="*{dateFrom}"></span> - <span th:text="*{dateTo}"></span></p>
                 <p>Price for <span th:text="${period.getDayBetween}"></span> day: <span
                         th:text="${period.getDayBetween * car.dalyPrice}"></span></p>
                 <button class="btn btn-primary" type="submit">Submit</button>
             </form>
+            <small>Daily price is cover 24H Pickup and drop off at 8 AM</small>
         </div>
     </div>
 </div>
