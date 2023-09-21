@@ -5,7 +5,6 @@ import com.codecool.carrental.controller.dto.ReservationRequest;
 import com.codecool.carrental.controller.dto.ReservationRequestThymeleaf;
 import com.codecool.carrental.entity.Car;
 import com.codecool.carrental.service.CarService;
-import com.codecool.carrental.service.ReservationService;
 import com.codecool.carrental.utils.ReservationMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -18,9 +17,8 @@ import java.util.List;
 @Controller
 @RequestMapping("/")
 @RequiredArgsConstructor
-public class CarController {
+public class PublicPagesController {
     private final CarService carService;
-    private final ReservationService reservationService;
 
     @GetMapping
     public String getHomePage(Model model) {
@@ -61,7 +59,7 @@ public class CarController {
         return "order";
     }
 
-    @PostMapping("place-order")
+    @PostMapping("/place-order")
     public String saveOrder(@ModelAttribute("req") ReservationRequestThymeleaf reservationRequest) {
 
         ReservationRequest request = ReservationMapper.thymeleafToRequestDTO(reservationRequest);

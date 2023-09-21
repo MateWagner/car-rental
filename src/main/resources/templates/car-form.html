@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="fragments/template :: head"></head>
+<body>
+<nav th:replace="fragments/template :: nav">
+</nav>
+<div class="container text-center">
+    <div class="row justify-content-center">
+        <div class="col-lg-5">
+            <h1> Edit Car</h1>
+            <form action="/admin/car" method="post" th:object="${car}">
+                <div class="mb-3">
+                    <label for="inputName" class="form-label">Name</label>
+                    <input type="text" id="inputName" class="form-control" placeholder="Name" th:field="*{name}"
+                           required min="3">
+                </div>
+                <div class="mb-3">
+                    <label for="inputPrice" class="form-label">Daly Price</label>
+                    <input type="number" id="inputPrice" class="form-control" placeholder="Daly Price"
+                           th:field="*{dalyPrice}"
+                           required>
+                </div>
+                <div class="mb-3 form-switch">
+                    <input class="form-check-input" id="inputActive" type="checkbox" role="switch"
+                           th:field="*{isActive}">
+                    <label for="inputActive" class="form-check-label">Active</label>
+                </div>
+                <input type="hidden" th:field="*{id}">
+                <input type="hidden" th:field="*{picturePath}">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

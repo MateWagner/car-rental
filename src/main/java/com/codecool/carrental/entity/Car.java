@@ -46,7 +46,7 @@ public class Car {
             name = "is_active",
             nullable = false
     )
-    private boolean isActive;
+    private Boolean isActive;
 
     @OneToMany(mappedBy = "car")
     private Set<Reservation> reservations;
