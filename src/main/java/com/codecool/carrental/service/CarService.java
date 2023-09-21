@@ -29,7 +29,7 @@ public class CarService {
         return carRepository.findAllByIdNotInAndIsActive(notAvailableCarsId, true);
     }
 
-    @Transactional(Transactional.TxType.REQUIRED)
+    @Transactional()
     public Long reserveCar(ReservationRequest reservationRequest) {
         dateInputValidation(reservationRequest.getDateFrom(), reservationRequest.getDateTo());
 
