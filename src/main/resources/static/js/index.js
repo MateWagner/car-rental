@@ -8,16 +8,17 @@ function getFormattedDateString(date) {
     return date.toISOString().split('T')[0]
 }
 
-function setDatePickerMin(id, extraDay = 0) {
+function setDatePickerMinAndValue(id, extraDay = 0) {
     const date = addDaysToDateObject(new Date(), extraDay)
     const dateString = getFormattedDateString(date)
     const dateInput = document.getElementById(id)
     dateInput.setAttribute("min", dateString)
+    dateInput.setAttribute("value", dateString)
 }
 
 function init() {
-    setDatePickerMin('dateFrom')
-    setDatePickerMin('dateTo', 1)
+    setDatePickerMinAndValue('dateFrom')
+    setDatePickerMinAndValue('dateTo', 1)
 }
 
 init()
