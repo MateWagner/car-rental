@@ -24,14 +24,14 @@ public class DatabaseInit implements CommandLineRunner {
         Car car1 = new Car(
                 "car1",
                 BigDecimal.valueOf(50),
-                "/car1.jpg",
+                "/image/car1.jpg",
                 true,
                 new HashSet<>()
         );
         Car car2 = new Car(
                 "car2",
                 BigDecimal.valueOf(50),
-                "/car1.jpg",
+                "/image/car1.jpg",
                 true,
                 new HashSet<>()
         );
