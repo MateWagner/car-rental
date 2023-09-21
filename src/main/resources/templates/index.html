@@ -13,12 +13,12 @@
                     <div class="col-md-6">
                         <label for="dateFrom" class="col-sm-2 col-form-label">From:</label>
                         <input id="dateFrom" class="form-control" type="date" th:field="*{dateFrom}"
-                               placeholder="Start Date">
+                               placeholder="Start Date" required>
                     </div>
                     <div class="col-md-6">
                         <label for="dateTo" class="col-sm-2 col-form-label">To:</label>
                         <input id="dateTo" class="form-control" type="date" th:field="*{dateTo}"
-                               placeholder="End Date">
+                               placeholder="End Date" required>
                     </div>
                 </div>
                 <div class="col-auto mt-1">
@@ -28,5 +28,6 @@
         </div>
     </div>
 </div>
+<script src="/js/index.js" defer></script>
 </body>
 </html>
