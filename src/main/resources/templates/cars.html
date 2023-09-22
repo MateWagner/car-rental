@@ -4,6 +4,7 @@
 <body>
 <nav th:replace="fragments/template :: nav">
 </nav>
+<section th:replace="fragments/gallery :: section"></section>
 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
     <div class="offcanvas-header">
         <h5 class="offcanvas-title" id="offcanvasRightLabel">Add New Car</h5>
@@ -11,6 +12,11 @@
     </div>
     <div class="offcanvas-body">
         <form action="/admin/car/add" method="post" th:object="${newCar}">
+            <div class="mb-3">
+                <button type="button" id="thumbnail" data-bs-toggle="modal" data-bs-target="#gallery">
+                    <img src="/images/stock.jpg" width="150">
+                </button>
+            </div>
             <div class="mb-3">
                 <label for="inputName" class="form-label">Name</label>
                 <input type="text" id="inputName" class="form-control" placeholder="Name" th:field="*{name}"
@@ -26,7 +32,7 @@
                 <input class="form-check-input" id="inputActive" type="checkbox" role="switch" th:field="*{active}">
                 <label for="inputActive" class="form-check-label">Active</label>
             </div>
-            <input type="hidden" th:field="*{picturePath}">
+            <input type="hidden" id="inputPicturePath" th:field="*{picturePath}">
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
     </div>
