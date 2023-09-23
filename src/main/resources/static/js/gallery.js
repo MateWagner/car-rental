@@ -33,9 +33,13 @@ function createImageElementAndAllClasses(width, url, listClasses) {
 }
 
 async function getImageUrlList() {
-    const response = await fetch("/admin/images")
-    return await response.json();
-    // TODO Error handling
+    try {
+        const response = await fetch("/admin/images")
+        return await response.json();
+    } catch (e) {
+        console.log("Something went wrong!")
+    }
+
 }
 
 function addEventListenerForOpeningGallery() {
@@ -50,15 +54,16 @@ async function uploadImageAndAddToGallery(event) {
     if (input.files.length === 0) {
         return;
     }
-
-    const response = await fetch("/admin/images", {
-        method: "POST",
-        body: createFormData(input.files[0])
-    })
-    const image = await response.json()
-    console.log(image);
-    addImageToRepository(image.url);
-
+    try {
+        const response = await fetch("/admin/images", {
+            method: "POST",
+            body: createFormData(input.files[0])
+        })
+        const image = await response.json()
+        addImageToRepository(image.url);
+    } catch (e) {
+        console.log("Something went wrong!")
+    }
 }
 
 function createFormData(file) {
