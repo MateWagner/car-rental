@@ -8,6 +8,7 @@ import com.codecool.carrental.exception.NotFoundException;
 import com.codecool.carrental.repository.CarRepository;
 import com.codecool.carrental.utils.CarMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -22,7 +23,6 @@ public class CarService {
     private final ReservationService reservationService;
 
     public List<Car> getAvailableCarsInPeriod(LocalDate dateFrom, LocalDate dateTo) {
-        dateInputValidation(dateFrom, dateTo);
         Set<Long> notAvailableCarsId = reservationService.getNotAvailableCarsIdInPeriod(dateFrom, dateTo);
         if (notAvailableCarsId.isEmpty())
             return carRepository.findCarByIsActiveTrue();
@@ -31,8 +31,6 @@ public class CarService {
 
     @Transactional()
     public Long reserveCar(ReservationRequest reservationRequest) {
-        dateInputValidation(reservationRequest.getDateFrom(), reservationRequest.getDateTo());
-
         if (!isCarAvailableInPeriod(reservationRequest)) {
             throw new BadRequestException("Not available Car with id " + reservationRequest.getCarId());
         }
@@ -61,22 +59,23 @@ public class CarService {
     }
 
 
-    private void dateInputValidation(LocalDate dateFrom, LocalDate dateTo) {
-        if (dateFrom.equals(dateTo))
-            throw new BadRequestException("Can't accept reservation less then one day");
-        if (dateFrom.isBefore(LocalDate.now()) || dateTo.isBefore(dateFrom))
-            throw new BadRequestException("Start date of reservation can't be older than today and can't be grater then Finish day");
-    }
-
     public List<Car> getAllCarToAdmin() {
         return carRepository.findAll();
     }
 
     public void updateCar(Car car) {
-        carRepository.save(car);
+        try {
+            carRepository.save(car);
+        } catch (DataIntegrityViolationException e) {
+            throw new BadRequestException("Invalid car data provided in the request.");
+        }
     }
 
     public Long addNewCar(NewCarDTO carDTO) {
-        return carRepository.save(CarMapper.NewcarDTOToCar(carDTO)).getId();
+        try {
+            return carRepository.save(CarMapper.NewcarDTOToCar(carDTO)).getId();
+        } catch (DataIntegrityViolationException e) {
+            throw new BadRequestException("Can't create new car due to data integrity violation");
+        }
     }
 }
