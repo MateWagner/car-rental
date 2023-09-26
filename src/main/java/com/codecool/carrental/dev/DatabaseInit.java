@@ -1,12 +1,16 @@
 package com.codecool.carrental.dev;
 
+import com.codecool.carrental.entity.Account;
 import com.codecool.carrental.entity.Car;
 import com.codecool.carrental.entity.Reservation;
+import com.codecool.carrental.repository.AccountRepository;
 import com.codecool.carrental.repository.CarRepository;
 import com.codecool.carrental.repository.ReservationRepository;
+import com.codecool.carrental.security.Roles;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -20,9 +24,11 @@ import java.util.List;
 public class DatabaseInit implements CommandLineRunner {
     private final CarRepository carRepository;
     private final ReservationRepository reservationRepository;
+    private final AccountRepository accountRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
         Car car1 = new Car(
                 "car1",
                 BigDecimal.valueOf(50),
@@ -60,5 +66,8 @@ public class DatabaseInit implements CommandLineRunner {
         );
 
         reservationRepository.saveAll(List.of(reservation1, reservation2));
+
+        Account adminAccount = new Account("admin@mail.com", passwordEncoder.encode("password"), Roles.ADMIN);
+        accountRepository.save(adminAccount);
     }
 }

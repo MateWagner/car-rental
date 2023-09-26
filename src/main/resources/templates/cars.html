@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-<head th:replace="fragments/template :: head"></head>
+<head th:replace="~{fragments/template :: head}"></head>
 <body>
-<nav th:replace="fragments/template :: nav">
+<nav th:replace="~{fragments/template :: nav}">
 </nav>
-<section th:replace="fragments/gallery :: section"></section>
+<section th:replace="~{fragments/gallery :: section}"></section>
 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
     <div class="offcanvas-header">
         <h5 class="offcanvas-title" id="offcanvasRightLabel">Add New Car</h5>
