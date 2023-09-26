@@ -7,11 +7,11 @@ import com.codecool.carrental.exception.BadRequestException;
 import com.codecool.carrental.exception.NotFoundException;
 import com.codecool.carrental.repository.CarRepository;
 import com.codecool.carrental.utils.CarMapper;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
@@ -29,7 +29,7 @@ public class CarService {
         return carRepository.findAllByIdNotInAndIsActive(notAvailableCarsId, true);
     }
 
-    @Transactional()
+    @Transactional
     public Long reserveCar(ReservationRequest reservationRequest) {
         if (!isCarAvailableInPeriod(reservationRequest)) {
             throw new BadRequestException("Not available Car with id " + reservationRequest.getCarId());
