@@ -14,7 +14,7 @@
         <form action="/admin/car/add" method="post" th:object="${newCar}">
             <div class="mb-3">
                 <button type="button" id="thumbnail" data-bs-toggle="modal" data-bs-target="#gallery">
-                    <img src="/images/stock.jpg" width="150">
+                    <img th:src="*{picturePath}" width="150">
                 </button>
             </div>
             <div class="mb-3">

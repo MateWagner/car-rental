@@ -44,6 +44,7 @@ public class AdminPagesController {
     @GetMapping("/cars")
     public String getCars(Model model) {
         NewCarDTO newCarDTO = new NewCarDTO();
+        newCarDTO.setPicturePath("/images/stock.jpg");
         List<Car> cars = carService.getAllCarToAdmin();
         model.addAttribute("cars", cars);
         model.addAttribute("newCar", newCarDTO);
