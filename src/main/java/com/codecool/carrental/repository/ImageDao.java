@@ -71,8 +71,8 @@ public class ImageDao {
     }
 
     private String getNewFileName(String originalFileName) {
-        String fileExtension = originalFileName.split("[.]")[1];
-        return UUID.randomUUID() + "." + fileExtension;
+        String[] fileExtension = originalFileName.split("[.]");
+        return UUID.randomUUID() + "." + fileExtension[fileExtension.length - 1];
     }
 
     private static Path getImagesFolderPath() {
