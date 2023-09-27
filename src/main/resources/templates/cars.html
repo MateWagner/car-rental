@@ -13,9 +13,9 @@
     <div class="offcanvas-body">
         <form action="/admin/car/add" method="post" th:object="${newCar}">
             <div class="mb-3">
-                <button type="button" id="thumbnail" data-bs-toggle="modal" data-bs-target="#gallery">
+                <div id="thumbnail" data-bs-toggle="modal" data-bs-target="#gallery">
                     <img th:src="*{picturePath}" width="150">
-                </button>
+                </div>
             </div>
             <div class="mb-3">
                 <label for="inputName" class="form-label">Name</label>
@@ -41,7 +41,7 @@
     <div class="row justify-content-center">
         <div class="col-lg-10">
             <h1>Fleet</h1>
-            <table class="table">
+            <table class="table table-striped align-middle">
                 <thead>
                 <tr>
                     <th scope="col">Picture</th>
@@ -52,9 +52,9 @@
                     <th scope="col">Edit</th>
                 </tr>
                 </thead>
-                <tbody>
+                <tbody class="table-group-divider">
                 <tr th:each="car: ${cars}">
-                    <td><img th:src="${car.picturePath}" width="150"></td>
+                    <td><img th:src="${car.picturePath}" height="75"></td>
                     <td th:text="${car.id}"></td>
                     <td th:text="${car.name}"></td>
                     <td th:text="${car.dalyPrice}"></td>

@@ -11,9 +11,9 @@
             <h1> Edit Car</h1>
             <form action="/admin/car" method="post" th:object="${car}">
                 <div class="mb-3">
-                    <button type="button" id="thumbnail" data-bs-toggle="modal" data-bs-target="#gallery">
+                    <div id="thumbnail" data-bs-toggle="modal" data-bs-target="#gallery">
                         <img th:src="${car.picturePath}" width="150">
-                    </button>
+                    </div>
                 </div>
                 <div class="mb-3">
                     <label for="inputName" class="form-label">Name</label>

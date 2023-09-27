@@ -9,19 +9,21 @@ async function renderGallery() {
 
 function addImageToRepository(url) {
     const imageRepository = document.getElementById("imageRepository")
-    const classes = ["rounded", "float-start"]
+    const classes = ["rounded", "float-start", "m-2"]
     const img = createImageElementAndAllClasses(100, url, classes)
-    img.addEventListener("click", () => onClick(url))
+    img.setAttribute("data-bs-dismiss", "modal")
+    img.addEventListener("click", () => choosePicture(url))
     imageRepository.appendChild(img)
 }
 
 
-function onClick(url) {
+function choosePicture(url) {
     document.getElementById('inputPicturePath').value = url
     const thumbnail = document.getElementById("thumbnail")
     thumbnail.innerHTML = ""
     const img = createImageElementAndAllClasses(150, url, ["rounded"])
     thumbnail.appendChild(img)
+    document.getElementById('gallery')
 }
 
 function createImageElementAndAllClasses(width, url, listClasses) {
