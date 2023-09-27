@@ -2,6 +2,9 @@ package com.codecool.carrental.repository;
 
 import com.codecool.carrental.exception.BadRequestException;
 import com.codecool.carrental.exception.NotFoundException;
+import com.codecool.carrental.utils.ImageProperties;
+import com.codecool.carrental.utils.RandomFileNameGenerator;
+import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Component;
@@ -15,20 +18,18 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Component
+@RequiredArgsConstructor
 public class ImageDao {
-    private final Path imageFolderPath;
+    private final RandomFileNameGenerator fileNameGenerator;
+    private final ImageProperties imageProperties;
 
-    public ImageDao() {
-        this.imageFolderPath = getImagesFolderPath();
-    }
 
     public List<String> getImagesNames() {
-        try (Stream<Path> files = Files.list(imageFolderPath)) {
+        try (Stream<Path> files = Files.list(getImageFolderPath())) {
             return files.map(path -> path.getFileName().toString())
                     .collect(Collectors.toList());
         } catch (IOException e) {
@@ -38,7 +39,7 @@ public class ImageDao {
 
     public Resource loadImage(String filename) {
         try {
-            Path file = imageFolderPath.resolve(filename);
+            Path file = getImageFolderPath().resolve(filename);
             Resource resource = new UrlResource(file.toUri());
 
             if (resource.exists() || resource.isReadable()) {
@@ -56,9 +57,9 @@ public class ImageDao {
             if (file.isEmpty()) {
                 throw new BadRequestException("Failed to store empty file.");
             }
-            String fileName = getNewFileName(file.getOriginalFilename());
+            String fileName = fileNameGenerator.getRandomNameFromFileName(file.getOriginalFilename());
 
-            Path destinationFile = this.imageFolderPath.resolve(Paths.get(fileName))
+            Path destinationFile = getImageFolderPath().resolve(Paths.get(fileName))
                     .normalize().toAbsolutePath();
             try (InputStream inputStream = file.getInputStream()) {
                 Files.copy(inputStream, destinationFile,
@@ -70,14 +71,7 @@ public class ImageDao {
         }
     }
 
-    private String getNewFileName(String originalFileName) {
-        String[] fileExtension = originalFileName.split("[.]");
-        return UUID.randomUUID() + "." + fileExtension[fileExtension.length - 1];
+    private Path getImageFolderPath() {
+        return Paths.get(imageProperties.getPath());
     }
-
-    private static Path getImagesFolderPath() {
-        Path currentWorkingDir = Paths.get(System.getProperty("user.dir"));
-        return currentWorkingDir.resolve("images"); // TODO maybe env?
-    }
-
 }
