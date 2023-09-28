@@ -57,7 +57,7 @@ public class DatabaseInit implements CommandLineRunner {
 
         Reservation reservation2 = new Reservation(
                 "Nagy Istvan",
-                "Nagy@mail.com",
+                "nagy@mail.com",
                 "1145 Budapest Erno utca 12",
                 "+36000000001",
                 LocalDate.now().plusDays(3),

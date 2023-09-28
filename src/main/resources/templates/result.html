@@ -7,6 +7,11 @@
 <div class="container text-center">
     <div class="row">
         <div class="col-lg-10 d-flex flex-row flex-wrap justify-content-center">
+            <div th:if="${#lists.isEmpty(cars)}">
+                <h2 class="mt-4">Sorry, in this interval we don't have available cars.</h2>
+                <a href="/" class="btn btn-primary">Go Back</a>
+            </div>
+            <div th:unless="${#lists.isEmpty(cars)}">
             <div class="card m-4" style="width: 18rem;" th:each="car: ${cars}">
                 <img th:src="${car.picturePath}" class="card-img-top" alt="Picture of Car">
                 <div class="card-body">

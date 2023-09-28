@@ -61,6 +61,10 @@ async function uploadImageAndAddToGallery(event) {
             method: "POST",
             body: createFormData(input.files[0])
         })
+        if (!response.ok) {
+            const error = await response.json()
+            console.error(error?.message);
+        }
         const image = await response.json()
         addImageToRepository(image.url);
     } catch (e) {
