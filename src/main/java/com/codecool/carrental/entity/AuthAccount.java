@@ -1,6 +1,7 @@
 package com.codecool.carrental.entity;
 
 import com.codecool.carrental.security.Roles;
+import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -10,6 +11,7 @@ import java.util.Collection;
 import java.util.List;
 
 @RequiredArgsConstructor
+@EqualsAndHashCode
 public class AuthAccount implements UserDetails {
     private final String email;
     private final String password;
